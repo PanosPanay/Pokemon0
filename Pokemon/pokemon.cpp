@@ -1,5 +1,28 @@
 #include "pokemon.h"
+SKILL::SKILL()
+{
+}
 
+SKILL::SKILL(string sname, int srank, SKILLKIND skind, int spower, int shit)
+{
+	SkillName = sname;
+	SkillRank = srank;
+	SkillKind = skind;
+	SkillPower = spower;
+	SkillHit = shit;
+}
+
+SKILL::SKILL(const SKILL & SK)
+{
+	SkillName = SK.SkillName;
+	SkillRank = SK.SkillRank;
+	SkillKind = SK.SkillKind;
+	SkillPower = SK.SkillPower;
+	SkillHit = SK.SkillHit;
+}
+
+//----------------------------------------------------------------------------------------------
+//小精灵基类
 POKEMON::POKEMON()
 {
 	//kind，Name没必要赋初值
@@ -19,7 +42,7 @@ POKEMON::POKEMON()
 
 POKEMON::POKEMON(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 	int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-	WUXINGTYPE xtype, int xskillcnt, string xnick)
+	WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
 {
 	Kind = xkind;
 	Name = xname;
@@ -32,7 +55,8 @@ POKEMON::POKEMON(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 	Accuracy = xaccuracy;
 	Evasiveness = xevasiveness;
 	wType = xtype;
-	SkillCnt = xskillcnt;
+	GotSkillCnt = xskillcnt;
+	AllSkillCnt = xallSkillcnt;
 	Nick = xnick;
 }
 
@@ -49,7 +73,7 @@ POKEMON::POKEMON(const POKEMON & PET)
 	Accuracy = PET.Get_Accuracy();
 	Evasiveness = PET.Get_Evasiveness();
 	wType = PET.Get_Type();
-	SkillCnt = PET.Get_SkillCnt();
+	GotSkillCnt = PET.Get_GotSkillCnt();
 	Nick = PET.Get_Nick();
 }
 
@@ -167,14 +191,24 @@ WUXINGTYPE POKEMON::Get_Type()const
 	return wType;
 }
 
-void POKEMON::Input_SkillCnt(int xskillcnt)
+void POKEMON::Input_GotSkillCnt(int xskillcnt)
 {
-	SkillCnt = xskillcnt;
+	GotSkillCnt = xskillcnt;
 }
 
-int POKEMON::Get_SkillCnt()const
+int POKEMON::Get_GotSkillCnt()const
 {
-	return SkillCnt;
+	return GotSkillCnt;
+}
+
+void POKEMON::Input_ALLSkillCnt(int xskillcnt)
+{
+	AllSkillCnt = xskillcnt;
+}
+
+int POKEMON::Get_ALLSkillCnt() const
+{
+	return AllSkillCnt;
 }
 
 void POKEMON::Input_Nick(string xnick)
@@ -185,6 +219,12 @@ void POKEMON::Input_Nick(string xnick)
 string POKEMON::Get_Nick() const
 {
 	return Nick;
+}
+
+SKILL * POKEMON::Access_AllSkill()
+{
+	SKILL *firstSkillPtr = AllSkills;
+	return firstSkillPtr;
 }
 
 void POKEMON::Upgrade()
@@ -204,8 +244,8 @@ POWERPET::POWERPET():POKEMON()
 
 POWERPET::POWERPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
 	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
-	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick)
-	:POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick)
+	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
+	:POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
 }
 
@@ -222,8 +262,8 @@ TANKPET::TANKPET():POKEMON()
 
 TANKPET::TANKPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
 	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
-	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick)
-	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick)
+	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
+	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
 }
 
@@ -240,16 +280,14 @@ DEFENSIVEPET::DEFENSIVEPET() :POKEMON()
 
 DEFENSIVEPET::DEFENSIVEPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
 	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
-	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick)
-	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick)
+	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
+	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
 }
 
 DEFENSIVEPET::DEFENSIVEPET(const DEFENSIVEPET & PET) : POKEMON(PET)
 {
 }
-
-//----------------------------------------------------------------------------------------------------------------
 
 AGILEPET::AGILEPET() :POKEMON()
 {
@@ -258,8 +296,8 @@ AGILEPET::AGILEPET() :POKEMON()
 
 AGILEPET::AGILEPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
 	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
-	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick)
-	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick)
+	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
+	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
 }
 
@@ -267,10 +305,83 @@ AGILEPET::AGILEPET(const AGILEPET & PET) : POKEMON(PET)
 {
 }
 
+//----------------------------------------------------------------------------------------------------------------
+//杰尼龟（防御型）
+SQUIRTLE::SQUIRTLE():DEFENSIVEPET()
+{
+	Input_Name("Squirtle");
+	Input_Rank(1);
+	Input_Exp(40);////////////
+	Input_Hp(44);
+	Input_AtkI(43);//速度43？
+	Input_Atk(48);
+	Input_Def(65);
+	Input_Accuracy(1);
+	Input_Evasiveness(0.5);
+	Input_Type(SHUI);
+	Input_GotSkillCnt(0);
+}
+
 void SQUIRTLE::Upgrade()
 {
+
 }
 
 void SQUIRTLE::SkillAll()
 {
+	int therank;
+	int AllSkillCnt = 0;
+	SKILL *theSkillPtr=Access_AllSkill();
+	//第0个技能：高速旋转，攻击型技能
+	theSkillPtr->SkillName = "Rapid Spin";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	therank = theSkillPtr->SkillRank;
+	theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第1个技能：缩入壳中，提高自己的防御力
+	++theSkillPtr;
+	theSkillPtr->SkillName = "Withdraw";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = SELFDEFFENCE;
+	therank = theSkillPtr->SkillRank;
+	theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);//指提高防御力的点数值
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第2个技能：睡觉，恢复部分生命值
+	theSkillPtr->SkillName = "Rest";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = REHP;
+	therank = theSkillPtr->SkillRank;
+	theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第3个技能：泰山压顶，攻击型技能
+	theSkillPtr->SkillName = "Body Slam";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	therank = theSkillPtr->SkillRank;
+	theSkillPtr->SkillPower = 40 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第4个技能：冰冻光束，降低对手防御力
+	theSkillPtr->SkillName = "Ice Beam";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = OPPDEFEENCE;
+	therank = theSkillPtr->SkillRank;
+	theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第5个技能：打鼾，攻击型技能(打鼾噪声攻击）
+	theSkillPtr->SkillName = "Snore";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	therank = theSkillPtr->SkillRank;
+	theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	theSkillPtr->SkillHit = 50;
+	++AllSkillCnt;
+	Input_ALLSkillCnt(AllSkillCnt);
 }
+
+
