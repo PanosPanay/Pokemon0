@@ -21,16 +21,22 @@ enum SKILLKIND
 	ATTACK, REHP, SELFDEFFENCE, OPPDEFEENCE, SELFATTACK
 };
 
+//技能是否已经拥有
+enum OWN
+{
+	OWNED, NOTOWN
+};
+
 //技能招式类
 class SKILL {
 public:
 	string SkillName;//技能名称
-	int SkillRank;//技能等级
+	int SkillRank=1;//技能等级
 	SKILLKIND SkillKind;//技能种类。攻击or防御
 	int SkillPower;//技能威力
 	int SkillHit;//技能命中
 	//int SkillPP;//Power Point招式点数，剩余可使用该招式的次数
-	
+	OWN Selected=NOTOWN;
 	SKILL();
 	SKILL(string sname, int srank, SKILLKIND skind, int spower, int shit);
 	SKILL(const SKILL &SK);
@@ -41,7 +47,7 @@ class POKEMON {
 private:
 	POKEMONKIND	Kind;//种类
 	string Name;//名字
-	int Rank;//等级:每个精灵初始等级为1，满级15
+	int Rank=1;//等级:每个精灵初始等级为1，满级15
 	int Exp;//经验值，战斗获得，先是100升一级，每升一级后都要多100才能升级，100，200，300.。。。
 	int	Hp;//生命值
 	int	AtkInterval;//攻击间隔：速度，只要速度高出对方1点就能比对方先出手；若速度一样，攻击次序则随机。 
@@ -193,10 +199,29 @@ public:
 	virtual void Upgrade();//升级函数（虚函数）
 	virtual void SkillAll();//存入该类小精灵的所有技能
 };
-//恶霸熊猫，力量型
+//火斑喵->炎热喵->炽焰咆啸虎Incineroar，力量型
+class INCINEROAR :public POWERPET {
+public:
+	INCINEROAR();
+	INCINEROAR(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+	INCINEROAR(const INCINEROAR& PET);
+	virtual void Upgrade();//升级函数（虚函数）
+	virtual void SkillAll();//存入该类小精灵的所有技能
+};
 
-//吼鲸王，肉盾型
-
+//果然翁Wobbuffet，肉盾型
+class WOBBUFFET :public TANKPET {
+public:
+	WOBBUFFET();
+	WOBBUFFET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+	WOBBUFFET(const WOBBUFFET& PET);
+	virtual void Upgrade();//升级函数（虚函数）
+	virtual void SkillAll();//存入该类小精灵的所有技能
+};
 //大钢蛇，防御型
 
 //蜥蜴王，敏捷型

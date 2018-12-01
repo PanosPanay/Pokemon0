@@ -443,8 +443,8 @@ void HAPPINY::SkillAll()
 	theSkillPtr->SkillPower = 90;
 	theSkillPtr->SkillHit = 85;
 	++AllSkillCnt;
-	//第4个技能：撒娇，降低对手防御力
-	theSkillPtr->SkillName = "撒娇Charm";
+	//第4个技能：天使之吻，降低对手防御力
+	theSkillPtr->SkillName = "天使之吻Sweet Kiss";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
 	theSkillPtr->SkillPower = 20;
@@ -598,6 +598,149 @@ void MEWTWO::SkillAll()
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
 	theSkillPtr->SkillPower = 100;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	Input_ALLSkillCnt(AllSkillCnt);
+}
+
+//炽焰咆啸虎Incineroar
+INCINEROAR::INCINEROAR()
+{
+	Input_Name("炽焰咆啸虎Incineroar");
+	Input_Rank(1);
+	Input_Exp(0);////////////经验值初始为0
+	Input_Hp(95);
+	Input_AtkI(60);//速度130？
+	Input_Atk(115);
+	Input_Def(90);
+	Input_Accuracy(1);
+	Input_Evasiveness(0.3);
+	Input_Type(HUO);
+	Input_GotSkillCnt(0);
+}
+
+void INCINEROAR::Upgrade()
+{
+
+}
+
+void INCINEROAR::SkillAll()
+{
+	int therank;
+	int AllSkillCnt = 0;
+	SKILL *theSkillPtr = Access_AllSkill();
+	//第0个技能：喷射火焰，攻击型技能
+	theSkillPtr->SkillName = "喷射火焰Flamethrower";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 90;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第1个技能：健美，提高自己的防御力
+	++theSkillPtr;
+	theSkillPtr->SkillName = "健美Bulk Up";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = SELFDEFFENCE;
+	theSkillPtr->SkillPower = 40;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第2个技能：火花，攻击型技能
+	theSkillPtr->SkillName = "火花Ember";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = REHP;
+	theSkillPtr->SkillPower = 40;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第3个技能：DD金勾臂，攻击型技能
+	theSkillPtr->SkillName = "DD金勾臂Darkest Lariat";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 85;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第4个技能：舌舔，降低对手防御力
+	theSkillPtr->SkillName = "舌舔Lick";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = OPPDEFEENCE;
+	theSkillPtr->SkillPower = 30;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第5个技能：闪焰冲锋，攻击型技能
+	theSkillPtr->SkillName = "闪焰冲锋Flare Blitz";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 120;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	Input_ALLSkillCnt(AllSkillCnt);
+}
+
+//果然翁Wobbuffet，肉盾型
+WOBBUFFET::WOBBUFFET()
+{
+	Input_Name("果然翁Wobbuffet");
+	Input_Rank(1);
+	Input_Exp(0);////////////经验值初始为0
+	Input_Hp(190);
+	Input_AtkI(33);//速度130？
+	Input_Atk(33);
+	Input_Def(58);
+	Input_Accuracy(1);
+	Input_Evasiveness(0.3);
+	Input_Type(MU);
+	Input_GotSkillCnt(0);
+}
+
+void WOBBUFFET::Upgrade()
+{
+}
+
+void WOBBUFFET::SkillAll()
+{
+	int therank;
+	int AllSkillCnt = 0;
+	SKILL *theSkillPtr = Access_AllSkill();
+	//第0个技能：跃起，攻击型技能
+	theSkillPtr->SkillName = "跃起Splash";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 20;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第1个技能：神秘守护，提高自己的防御力
+	++theSkillPtr;
+	theSkillPtr->SkillName = "神秘守护Safeguard";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = SELFDEFFENCE;
+	theSkillPtr->SkillPower = 40;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第2个技能：躺赢，恢复部分HP
+	theSkillPtr->SkillName = "躺赢Lie Win";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = REHP;
+	theSkillPtr->SkillPower = 80;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第3个技能：镜面反射，攻击型技能
+	theSkillPtr->SkillName = "镜面反射Mirror Coat";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 30;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第4个技能：撒娇，降低对手防御力
+	theSkillPtr->SkillName = "撒娇Charm";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = OPPDEFEENCE;
+	theSkillPtr->SkillPower = 30;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第5个技能：抓狂，攻击型技能
+	theSkillPtr->SkillName = "抓狂Crazy";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 60;
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	Input_ALLSkillCnt(AllSkillCnt);
