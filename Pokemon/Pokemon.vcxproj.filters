@@ -18,9 +18,15 @@
     <ClInclude Include="pokemon.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="fight.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pokemon.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fight.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

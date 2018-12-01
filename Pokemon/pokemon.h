@@ -101,6 +101,7 @@ public:
 	string Get_Nick()const;
 	SKILL *Access_AllSkill();//返回访问所有技能列表的0位指针
 
+	void RefershRank();//用当前的精灵经验值更新等级信息
 	//增加技能
 	//攻击函数
 	virtual void Upgrade();//升级函数（虚函数）
@@ -211,7 +212,7 @@ public:
 	virtual void SkillAll();//存入该类小精灵的所有技能
 };
 
-//果然翁Wobbuffet，肉盾型
+//小果然->果然翁Wobbuffet，肉盾型
 class WOBBUFFET :public TANKPET {
 public:
 	WOBBUFFET();
@@ -222,6 +223,25 @@ public:
 	virtual void Upgrade();//升级函数（虚函数）
 	virtual void SkillAll();//存入该类小精灵的所有技能
 };
-//大钢蛇，防御型
-
-//蜥蜴王，敏捷型
+//大岩蛇Onix->大钢蛇Steelix->超级大钢蛇，防御型
+class STEELIX :public DEFENSIVEPET {
+public:
+	STEELIX();
+	STEELIX(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+	STEELIX(const STEELIX& PET);
+	virtual void Upgrade();//升级函数（虚函数）
+	virtual void SkillAll();//存入该类小精灵的所有技能
+};
+//凯西Abra->勇基拉Kadabra->胡地Alakazam，敏捷型
+class ALAKAZAM :public AGILEPET {
+public:
+	ALAKAZAM();
+	ALAKAZAM(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+	ALAKAZAM(const ALAKAZAM& PET);
+	virtual void Upgrade();//升级函数（虚函数）
+	virtual void SkillAll();//存入该类小精灵的所有技能
+};

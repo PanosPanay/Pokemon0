@@ -227,6 +227,40 @@ SKILL * POKEMON::Access_AllSkill()
 	return firstSkillPtr;
 }
 
+void POKEMON::RefershRank()
+{
+	if (Exp >= 0 && Exp < 100)
+		Rank = 1;
+	else if (Exp >= 100 && Exp < 200)
+		Rank = 2;
+	else if (Exp >= 200 && Exp < 300)
+		Rank = 3;
+	else if (Exp >= 300 && Exp < 400)
+		Rank = 4;
+	else if (Exp >= 400 && Exp < 500)
+		Rank = 5;
+	else if (Exp >= 500 && Exp < 650)
+		Rank = 6;
+	else if (Exp >= 650 && Exp < 800)
+		Rank = 7;
+	else if (Exp >= 800 && Exp < 950)
+		Rank = 8;
+	else if (Exp >= 950 && Exp < 1100)
+		Rank = 9;
+	else if (Exp >= 1100 && Exp < 1300)
+		Rank = 10;
+	else if (Exp >= 1300 && Exp < 1500)
+		Rank = 11;
+	else if (Exp >= 1500 && Exp < 1700)
+		Rank = 12;
+	else if (Exp >= 1700 && Exp < 2000)
+		Rank = 13;
+	else if (Exp >= 2000 && Exp < 2500)
+		Rank = 14;
+	else if (Exp >= 2500)
+		Rank = 15;
+}
+
 void POKEMON::Upgrade()
 {
 }
@@ -686,7 +720,7 @@ WOBBUFFET::WOBBUFFET()
 	Input_Atk(33);
 	Input_Def(58);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.3);
+	Input_Evasiveness(0.5);
 	Input_Type(MU);
 	Input_GotSkillCnt(0);
 }
@@ -741,6 +775,148 @@ void WOBBUFFET::SkillAll()
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
 	theSkillPtr->SkillPower = 60;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	Input_ALLSkillCnt(AllSkillCnt);
+}
+
+//大岩蛇Onix->大钢蛇Steelix->超级大钢蛇，防御型
+STEELIX::STEELIX()
+{
+	Input_Name("大岩蛇Onix");
+	Input_Rank(1);
+	Input_Exp(0);////////////经验值初始为0
+	Input_Hp(75);
+	Input_AtkI(30);//速度30？
+	Input_Atk(85);
+	Input_Def(200);
+	Input_Accuracy(1);
+	Input_Evasiveness(0.5);
+	Input_Type(TU);
+	Input_GotSkillCnt(0);
+}
+
+void STEELIX::Upgrade()
+{
+}
+
+void STEELIX::SkillAll()
+{
+	int therank;
+	int AllSkillCnt = 0;
+	SKILL *theSkillPtr = Access_AllSkill();
+	//第0个技能：绑紧，攻击型技能
+	theSkillPtr->SkillName = "绑紧Bind";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 35;
+	theSkillPtr->SkillHit = 85;
+	++AllSkillCnt;
+	//第1个技能：变硬，提高自己的防御力
+	++theSkillPtr;
+	theSkillPtr->SkillName = "变硬Harden";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = SELFDEFFENCE;
+	theSkillPtr->SkillPower = 60;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第2个技能：玩泥巴，恢复部分HP
+	theSkillPtr->SkillName = "玩泥巴Mud Sport";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = REHP;
+	theSkillPtr->SkillPower = 40;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第3个技能：落石，攻击型技能
+	theSkillPtr->SkillName = "落石Rock Throw";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 50;
+	theSkillPtr->SkillHit = 90;
+	++AllSkillCnt;
+	//第4个技能：诅咒，降低对手防御力
+	theSkillPtr->SkillName = "诅咒Curse";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = OPPDEFEENCE;
+	theSkillPtr->SkillPower = 30;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第5个技能：铁尾，攻击型技能
+	theSkillPtr->SkillName = "铁尾Iron Tail";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 100;
+	theSkillPtr->SkillHit = 75;
+	++AllSkillCnt;
+	Input_ALLSkillCnt(AllSkillCnt);
+}
+
+//凯西Abra->勇基拉Kadabra->胡地Alakazam，敏捷型
+ALAKAZAM::ALAKAZAM()
+{
+	Input_Name("凯西Abra");
+	Input_Rank(1);
+	Input_Exp(0);////////////经验值初始为0
+	Input_Hp(55);
+	Input_AtkI(120);//速度30？
+	Input_Atk(50);
+	Input_Def(45);
+	Input_Accuracy(1);
+	Input_Evasiveness(0.5);
+	Input_Type(JIN);
+	Input_GotSkillCnt(0);
+}
+
+void ALAKAZAM::Upgrade()
+{
+}
+
+void ALAKAZAM::SkillAll()
+{
+	int therank;
+	int AllSkillCnt = 0;
+	SKILL *theSkillPtr = Access_AllSkill();
+	//第0个技能：幻想光线，攻击型技能
+	theSkillPtr->SkillName = "幻想光线Psybeam";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 65;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第1个技能：反射壁，提高自己的防御力
+	++theSkillPtr;
+	theSkillPtr->SkillName = "反射壁Reflect";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = SELFDEFFENCE;
+	theSkillPtr->SkillPower = 30;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第2个技能：自我再生，恢复部分HP
+	theSkillPtr->SkillName = "自我再生Recover";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = REHP;
+	theSkillPtr->SkillPower = 50;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第3个技能：精神利刃，攻击型技能
+	theSkillPtr->SkillName = "精神利刃Psycho Cut";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 80;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第4个技能：定身法，降低对手防御力
+	theSkillPtr->SkillName = "定身法Disable";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = OPPDEFEENCE;
+	theSkillPtr->SkillPower = 40;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第5个技能：预知未来，攻击型技能
+	theSkillPtr->SkillName = "预知未来Future Sight";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 100;
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	Input_ALLSkillCnt(AllSkillCnt);
