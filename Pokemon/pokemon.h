@@ -182,7 +182,7 @@ public:
 	virtual void Upgrade();//升级函数（虚函数）
 	virtual void SkillAll();//存入该类小精灵的所有技能
 };
-//超梦x->超梦->超级超梦y
+//超梦x->超梦->超级超梦y，敏捷型
 class  MEWTWO :public AGILEPET {
 public:
 	MEWTWO();
@@ -193,3 +193,10 @@ public:
 	virtual void Upgrade();//升级函数（虚函数）
 	virtual void SkillAll();//存入该类小精灵的所有技能
 };
+//恶霸熊猫，力量型
+
+//吼鲸王，肉盾型
+
+//大钢蛇，防御型
+
+//蜥蜴王，敏捷型
