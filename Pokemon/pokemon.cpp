@@ -227,6 +227,11 @@ SKILL * POKEMON::Access_AllSkill()
 	return firstSkillPtr;
 }
 
+SKILL * POKEMON::Access_GotSkill(int pos)
+{
+	return GotSkills[pos];
+}
+
 void POKEMON::RefershRank()
 {
 	if (Exp >= 0 && Exp < 100)
