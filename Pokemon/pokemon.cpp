@@ -306,12 +306,166 @@ AGILEPET::AGILEPET(const AGILEPET & PET) : POKEMON(PET)
 }
 
 //----------------------------------------------------------------------------------------------------------------
+//暴鲤龙
+GYARADOS::GYARADOS()
+{
+	Input_Name("Magikarp");//鲤鱼王
+	Input_Rank(1);
+	Input_Exp(0);////////////经验值初始为0
+	Input_Hp(40);
+	Input_AtkI(60);//速度60？
+	Input_Atk(80);
+	Input_Def(45);
+	Input_Accuracy(1);
+	Input_Evasiveness(0.3);
+	Input_Type(SHUI);
+	Input_GotSkillCnt(0);
+}
+
+void GYARADOS::Upgrade()
+{
+}
+
+void GYARADOS::SkillAll()
+{
+	int therank;
+	int AllSkillCnt = 0;
+	SKILL *theSkillPtr = Access_AllSkill();
+	//第0个技能：龙之怒，攻击型技能
+	theSkillPtr->SkillName = "Dragon Rage";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 60;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第1个技能：龙之舞，提升自身攻击力
+	++theSkillPtr;
+	theSkillPtr->SkillName = "Dragon Dance";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = SELFDEFFENCE;
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);//指提高防御力的点数值
+	theSkillPtr->SkillPower = 20;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第2个技能：求雨，恢复部分生命值
+	theSkillPtr->SkillName = "Rain Dance";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = REHP;
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	theSkillPtr->SkillPower = 20;
+	theSkillPtr->SkillHit = 50;
+	++AllSkillCnt;
+	//第3个技能：龙卷风，攻击型技能
+	theSkillPtr->SkillName = "Twister";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 40 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 40;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第4个技能：瞪眼，降低对手防御力
+	theSkillPtr->SkillName = "Leer";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = OPPDEFEENCE;
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 20;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第5个技能：水炮，攻击型技能
+	theSkillPtr->SkillName = "Hydro Pump";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 50;
+	theSkillPtr->SkillHit = 80;
+	++AllSkillCnt;
+	Input_ALLSkillCnt(AllSkillCnt);
+}
+
+//小福蛋（肉盾型）
+HAPPINY::HAPPINY()
+{
+	Input_Name("Happiny");
+	Input_Rank(1);
+	Input_Exp(0);////////////经验值初始为0
+	Input_Hp(100);
+	Input_AtkI(30);//速度30？
+	Input_Atk(10);
+	Input_Def(10);
+	Input_Accuracy(1);
+	Input_Evasiveness(0.5);
+	Input_Type(TU);
+	Input_GotSkillCnt(0);
+}
+
+void HAPPINY::Upgrade()
+{
+}
+
+void HAPPINY::SkillAll()
+{
+	int therank;
+	int AllSkillCnt = 0;
+	SKILL *theSkillPtr = Access_AllSkill();
+	//第0个技能：炸蛋，攻击型技能
+	theSkillPtr->SkillName = "Egg Bomb";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 50;
+	theSkillPtr->SkillHit = 90;
+	++AllSkillCnt;
+	//第1个技能：变圆，提高自己的防御力
+	++theSkillPtr;
+	theSkillPtr->SkillName = "Defense Curl";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = SELFDEFFENCE;
+	theSkillPtr->SkillPower = 10;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第2个技能：生蛋，恢复部分生命值
+	theSkillPtr->SkillName = "Soft-Boiled";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = REHP;
+	theSkillPtr->SkillPower = 60;
+	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
+	//第3个技能：猛撞，攻击型技能
+	theSkillPtr->SkillName = "Take Down";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 30;
+	theSkillPtr->SkillHit = 85;
+	++AllSkillCnt;
+	//第4个技能：撒娇，降低对手防御力
+	theSkillPtr->SkillName = "Charm";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = OPPDEFEENCE;
+	theSkillPtr->SkillPower = 20;
+	theSkillPtr->SkillHit = 80;
+	++AllSkillCnt;
+	//第5个技能：连环巴掌，攻击型技能
+	theSkillPtr->SkillName = "Double Slap";
+	theSkillPtr->SkillRank = 1;
+	theSkillPtr->SkillKind = ATTACK;
+	theSkillPtr->SkillPower = 15;
+	theSkillPtr->SkillHit = 85;
+	++AllSkillCnt;
+	Input_ALLSkillCnt(AllSkillCnt);
+}
+
 //杰尼龟（防御型）
 SQUIRTLE::SQUIRTLE():DEFENSIVEPET()
 {
 	Input_Name("Squirtle");
 	Input_Rank(1);
-	Input_Exp(40);////////////
+	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(44);
 	Input_AtkI(43);//速度43？
 	Input_Atk(48);
@@ -336,8 +490,9 @@ void SQUIRTLE::SkillAll()
 	theSkillPtr->SkillName = "Rapid Spin";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
-	therank = theSkillPtr->SkillRank;
-	theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 20;
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第1个技能：缩入壳中，提高自己的防御力
@@ -345,43 +500,58 @@ void SQUIRTLE::SkillAll()
 	theSkillPtr->SkillName = "Withdraw";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = SELFDEFFENCE;
-	therank = theSkillPtr->SkillRank;
-	theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);//指提高防御力的点数值
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 20 * (1 + (therank - 1)*0.1);//指提高防御力的点数值
+	theSkillPtr->SkillPower = 20;
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：睡觉，恢复部分生命值
 	theSkillPtr->SkillName = "Rest";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
-	therank = theSkillPtr->SkillRank;
-	theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	theSkillPtr->SkillPower = 30;
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：泰山压顶，攻击型技能
 	theSkillPtr->SkillName = "Body Slam";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
-	therank = theSkillPtr->SkillRank;
-	theSkillPtr->SkillPower = 40 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 40 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 40;
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第4个技能：冰冻光束，降低对手防御力
 	theSkillPtr->SkillName = "Ice Beam";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
-	therank = theSkillPtr->SkillRank;
-	theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 30;
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：打鼾，攻击型技能(打鼾噪声攻击）
 	theSkillPtr->SkillName = "Snore";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
-	therank = theSkillPtr->SkillRank;
-	theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);//恢复的生命值点数
+	//therank = theSkillPtr->SkillRank;
+	//theSkillPtr->SkillPower = 30 * (1 + (therank - 1)*0.1);
+	theSkillPtr->SkillPower = 30;
 	theSkillPtr->SkillHit = 50;
 	++AllSkillCnt;
 	Input_ALLSkillCnt(AllSkillCnt);
 }
 
+MEWTWO::MEWTWO()
+{
+}
 
+void MEWTWO::Upgrade()
+{
+}
+
+void MEWTWO::SkillAll()
+{
+}

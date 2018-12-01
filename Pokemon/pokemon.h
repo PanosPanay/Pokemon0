@@ -15,10 +15,10 @@ enum WUXINGTYPE
 	SHUI, HUO, JIN, MU, TU
 };
 
-//技能种类：攻击型技能，回血型技能，增强自己防御力的技能，降低对手防御力的技能
+//技能种类：攻击型技能，回血型技能，增强自己防御力的技能，降低对手防御力的技能，增强自己的攻击力
 enum SKILLKIND
 {
-	ATTACK, REHP, SELFDEFFENCE, OPPDEFEENCE
+	ATTACK, REHP, SELFDEFFENCE, OPPDEFEENCE, SELFATTACK
 };
 
 //技能招式类
@@ -42,7 +42,7 @@ private:
 	POKEMONKIND	Kind;//种类
 	string Name;//名字
 	int Rank;//等级:每个精灵初始等级为1，满级15
-	int Exp;//经验值
+	int Exp;//经验值，战斗获得，先是100升一级，每升一级后都要多100才能升级，100，200，300.。。。
 	int	Hp;//生命值
 	int	AtkInterval;//攻击间隔：速度，只要速度高出对方1点就能比对方先出手；若速度一样，攻击次序则随机。 
 	//伤害=（（2*等级+10）/250*攻击方攻击力/防御方防御力*技能威力+2）*加成  加成由属性相克造成
@@ -115,6 +115,7 @@ public:
 };
 //肉盾型宠物小精灵：高生命
 class TANKPET :public POKEMON{
+public:
 	TANKPET();
 	TANKPET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
@@ -124,6 +125,7 @@ class TANKPET :public POKEMON{
 };
 //防御性宠物小精灵：高防御
 class DEFENSIVEPET :public POKEMON{
+public:
 	DEFENSIVEPET();
 	DEFENSIVEPET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
@@ -133,6 +135,7 @@ class DEFENSIVEPET :public POKEMON{
 };
 //敏捷型宠物小精灵：低攻击间隔
 class AGILEPET :public POKEMON{
+public:
 	AGILEPET();
 	AGILEPET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
@@ -144,6 +147,28 @@ class AGILEPET :public POKEMON{
 
 //----------------------------------------------------------------------------------------
 //具体的精灵类
+//鲤鱼王（1-5）->暴鲤龙（6-10）->超级暴鲤龙（11-15）,高攻击
+class GYARADOS :public POWERPET {
+public:
+	GYARADOS();
+	GYARADOS(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+	GYARADOS(const GYARADOS& PET);
+	virtual void Upgrade();//升级函数（虚函数）
+	virtual void SkillAll();//存入该类小精灵的所有技能
+};
+//小福蛋->吉利蛋->幸福蛋,肉盾型
+class HAPPINY :public TANKPET {
+public:
+	HAPPINY();
+	HAPPINY(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+	HAPPINY(const HAPPINY& PET);
+	virtual void Upgrade();//升级函数（虚函数）
+	virtual void SkillAll();//存入该类小精灵的所有技能
+};
 //杰尼龟(1-5级）->卡咪龟(6-10级）->水箭龟(11-15级），高防御
 class SQUIRTLE :public DEFENSIVEPET{
 //private:
@@ -157,15 +182,14 @@ public:
 	virtual void Upgrade();//升级函数（虚函数）
 	virtual void SkillAll();//存入该类小精灵的所有技能
 };
-
-//鲤鱼王（1-7）->暴鲤龙（7-15）,高攻击
-class GYARADOS :public POWERPET {
+//超梦x->超梦->超级超梦y
+class  MEWTWO :public AGILEPET {
 public:
-	GYARADOS();
-	GYARADOS(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	MEWTWO();
+	MEWTWO(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
-	GYARADOS(const GYARADOS& PET);
+	MEWTWO(const MEWTWO& PET);
 	virtual void Upgrade();//升级函数（虚函数）
 	virtual void SkillAll();//存入该类小精灵的所有技能
 };
