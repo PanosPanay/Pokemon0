@@ -99,8 +99,8 @@ public:
 	int Get_ALLSkillCnt()const;
 	void Input_Nick(string xnick);
 	string Get_Nick()const;
-	SKILL *Access_AllSkill();//返回访问所有技能列表的0位指针
-	SKILL *Access_GotSkill(int pos);//访问某个已经get到的技能
+	const SKILL *Access_AllSkill()const;//返回访问所有技能列表的0位指针
+	SKILL *Access_GotSkill(int pos)const;//访问某个已经get到的技能
 
 	void RefershRank();//用当前的精灵经验值更新等级信息
 	//增加技能

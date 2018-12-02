@@ -73,8 +73,17 @@ POKEMON::POKEMON(const POKEMON & PET)
 	Accuracy = PET.Get_Accuracy();
 	Evasiveness = PET.Get_Evasiveness();
 	wType = PET.Get_Type();
+	AllSkillCnt = PET.Get_ALLSkillCnt();
 	GotSkillCnt = PET.Get_GotSkillCnt();
 	Nick = PET.Get_Nick();
+	for (int i = 0; i < AllSkillCnt; ++i)
+	{
+		AllSkills[i] = *(PET.Access_AllSkill()+i);
+	}
+	for (int i = 0; i < GotSkillCnt; ++i)
+	{
+		GotSkills[i] = PET.Access_GotSkill(i);
+	}
 }
 
 POKEMON::~POKEMON()
@@ -221,13 +230,13 @@ string POKEMON::Get_Nick() const
 	return Nick;
 }
 
-SKILL * POKEMON::Access_AllSkill()
+const SKILL * POKEMON::Access_AllSkill() const
 {
-	SKILL *firstSkillPtr = AllSkills;
+	const SKILL *firstSkillPtr = AllSkills;
 	return firstSkillPtr;
 }
 
-SKILL * POKEMON::Access_GotSkill(int pos)
+SKILL * POKEMON::Access_GotSkill(int pos) const
 {
 	return GotSkills[pos];
 }
@@ -356,7 +365,7 @@ GYARADOS::GYARADOS()
 	Input_Atk(125);
 	Input_Def(79);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.3);
+	Input_Evasiveness(0.2);
 	Input_Type(SHUI);
 	Input_GotSkillCnt(0);
 }
@@ -439,7 +448,7 @@ HAPPINY::HAPPINY()
 	Input_Atk(10);
 	Input_Def(10);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.5);
+	Input_Evasiveness(0.1);
 	Input_Type(TU);
 	Input_GotSkillCnt(0);
 }
@@ -510,7 +519,7 @@ SQUIRTLE::SQUIRTLE():DEFENSIVEPET()
 	Input_Atk(83);
 	Input_Def(100);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.5);
+	Input_Evasiveness(0.2);
 	Input_Type(SHUI);
 	Input_GotSkillCnt(0);
 }
@@ -582,7 +591,7 @@ MEWTWO::MEWTWO()
 	Input_Atk(110);
 	Input_Def(90);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.5);
+	Input_Evasiveness(0.4);
 	Input_Type(TU);
 	Input_GotSkillCnt(0);
 }
@@ -653,7 +662,7 @@ INCINEROAR::INCINEROAR()
 	Input_Atk(115);
 	Input_Def(90);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.3);
+	Input_Evasiveness(0.2);
 	Input_Type(HUO);
 	Input_GotSkillCnt(0);
 }
@@ -725,7 +734,7 @@ WOBBUFFET::WOBBUFFET()
 	Input_Atk(33);
 	Input_Def(58);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.5);
+	Input_Evasiveness(0.1);
 	Input_Type(MU);
 	Input_GotSkillCnt(0);
 }
@@ -796,7 +805,7 @@ STEELIX::STEELIX()
 	Input_Atk(85);
 	Input_Def(200);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.5);
+	Input_Evasiveness(0.2);
 	Input_Type(TU);
 	Input_GotSkillCnt(0);
 }
@@ -867,7 +876,7 @@ ALAKAZAM::ALAKAZAM()
 	Input_Atk(50);
 	Input_Def(45);
 	Input_Accuracy(1);
-	Input_Evasiveness(0.5);
+	Input_Evasiveness(0.4);
 	Input_Type(JIN);
 	Input_GotSkillCnt(0);
 }

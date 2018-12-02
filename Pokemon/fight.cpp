@@ -1,10 +1,27 @@
 #include "fight.h"
 
+FIGHT::FIGHT()
+{
+}
+
+FIGHT::FIGHT(POKEMON F1, POKEMON F2)
+{
+	A = F1;
+	B = F2;
+}
+
+FIGHT::FIGHT(const FIGHT & theFight)
+{
+	A = theFight.A;
+	B = theFight.B;
+}
+
 void FIGHT::A_VS_B()
 {
 	srand((unsigned)time(NULL));
 	//int Attacker;//0表示攻击方是A，1表示攻击方是B
 	POKEMON *Attacker = NULL;
+	POKEMON *Defender = NULL;
 	int currentTime = 0;
 	int Aorder = 0;
 	int Border = 0;
@@ -13,53 +30,151 @@ void FIGHT::A_VS_B()
 	{
 		Attacker = &A;
 		currentTime += A.Get_AtkI();
+		Defender = &B;
 	}
 	else
 	{
 		Attacker = &B;
 		currentTime += B.Get_AtkI();
+		Defender = &A;
 	}
+	//输出战斗双方当前属性值
+	cout << "战斗开始！" << endl;
+	cout << attackName << ": " << "HP=" << Attacker->Get_Hp() << ", Atk=" << Attacker->Get_Atk()
+		<< ", Def=" << Attacker->Get_Def() << ", Accuracy=" << Attacker->Get_Accuracy() << ", Evasiveness="
+		<< Attacker->Get_Evasiveness() << endl;
+	cout << defenderName << ": " << "HP=" << Defender->Get_Hp() << ", Atk=" << Defender->Get_Atk()
+		<< ", Def=" << Defender->Get_Def() << ", Accuracy=" << Defender->Get_Accuracy() << ", Evasiveness="
+		<< Defender->Get_Evasiveness() << endl << endl;
 	while (A.Get_Hp() > 0 && B.Get_Hp() > 0)
 	{
 		//需要改变一下atki，注意和速度是相反的概念
 		if (Attacker == &A)//A出招
 		{
-			//int theSkill = rand() % (A.Get_GotSkillCnt());//随机选取一个招式，或者加一个开关，让用户选择招式？？？？？？？？？？？？
-			//if()
-			//输出招式
 			++Aorder;
 		}
 		else //B出招
 		{
-			//输出招式
 			++Border;
 		}
+		//确定招式并输出
+		string defenderName = Defender->Get_Name();
+		string attackName = Attacker->Get_Name();
 		int theSkill = rand() % (Attacker->Get_GotSkillCnt());//随机选取一个招式，或者加一个开关，让用户选择招式？？？？？？？？？？？？
-		switch (Attacker->Access_GotSkill(theSkill)->SkillKind)
+		SKILL* theSkillPtr = Attacker->Access_GotSkill(theSkill);
+		cout << "招式" << Aorder + Border << ":" << endl;
+		cout << attackName << "发动" << theSkillPtr->SkillName << endl;
+		//计算命中
+		int theHitNum = (theSkillPtr->SkillHit)*(Attacker->Get_Accuracy())*(1 - (Defender->Get_Evasiveness())) * 100;
+		int isHit = rand() % 100 + 1;
+		switch (theSkillPtr->SkillKind)
 		{
 		case ATTACK:
 			//分析命中率和伤害函数
+			double addition = 1;//加成，属性相克
+			if (Defender->Get_Type() - Attacker->Get_Type() == 1 || Defender->Get_Type() - Attacker->Get_Type() == 4)
+				addition = 1.2;
+			else if (Attacker->Get_Type() - Defender->Get_Type() == 1 || Attacker->Get_Type() - Defender->Get_Type() == 4)
+				addition = 0.8;
+			
+			if (isHit <= theHitNum)//命中
+			{
+				int hurt = (Attacker->Get_Atk() / Attacker->Get_Def())*theSkillPtr->SkillPower*addition;
+				int theHp = Defender->Get_Hp();
+				if (theHp > hurt)
+					theHp = theHp - hurt;
+				else
+					theHp = 0;
+				Defender->Input_Hp(theHp);
+				cout << "命中！" << defenderName << "受到" << hurt << "点伤害！" << endl;
+			}
+			else
+			{
+				cout << "未命中！" << defenderName << "灵巧地躲避了攻击！" << endl;
+			}
 			break;
 		case REHP:
+			if (isHit <= theHitNum)//成功使用招式回血
+			{
+				int theHp = Attacker->Get_Hp();
+				theHp = theHp + theSkillPtr->SkillPower;
+				Attacker->Input_Hp(theHp);
+				cout << "成功回血！" << attackName << "生命值增加" << theSkillPtr->SkillPower << "点" << endl;
+			}
+			else
+			{
+				cout << "回血失败！" << endl;
+			}
 			break;
 		case SELFDEFFENCE:
+			if (isHit <= theHitNum)//成功使用招式增加自身防御力
+			{
+				int theDef = Attacker->Get_Def();
+				theDef = theDef + theSkillPtr->SkillPower;
+				Attacker->Input_Def(theDef);
+				cout << "成功出招！" << attackName << "防御力增加" << theSkillPtr->SkillPower << "点" << endl;
+			}
+			else
+			{
+				cout << "防御力提升失败！" << endl;
+			}
 			break;
 		case OPPDEFEENCE:
+			if (isHit <= theHitNum)//成功使用招式降低对方防御力
+			{
+				int theDef = Attacker->Get_Def();
+				if (theDef - theSkillPtr->SkillPower > 10)//防御力下限为10
+				{
+					theDef = theDef - theSkillPtr->SkillPower;
+					cout << "成功出招！" << defenderName << "防御力降低" << theSkillPtr->SkillPower << "点" << endl;
+				}
+				else
+				{					
+					cout << "成功出招！" << defenderName << "防御力降低到下限（10点）" << endl;
+					theDef = 10;
+				}				
+				Attacker->Input_Def(theDef);
+			}
+			else
+			{
+				cout << "未能对敌方防御力造成实质性威胁！" << endl;
+			}
 			break;
 		case SELFATTACK:
+			if (isHit <= theHitNum)//成功使用招式增加自身攻击力
+			{
+				int theAtk = Attacker->Get_Atk();
+				theAtk = theAtk + theSkillPtr->SkillPower;
+				Attacker->Input_Atk(theAtk);
+				cout << "成功出招！" << attackName << "攻击力增加" << theSkillPtr->SkillPower << "点" << endl;
+			}
+			else
+			{
+				cout << "攻击力提升失败！" << endl;
+			}
 			break;
 		default:
 			break;
 		}
+		//输出战斗双方当前属性值
+		cout << attackName << ": " << "HP=" << Attacker->Get_Hp() << ", Atk=" << Attacker->Get_Atk()
+			<< ", Def=" << Attacker->Get_Def() << ", Accuracy=" << Attacker->Get_Accuracy() << ", Evasiveness="
+			<< Attacker->Get_Evasiveness() << endl;
+		cout << defenderName << ": " << "HP=" << Defender->Get_Hp() << ", Atk=" << Defender->Get_Atk()
+			<< ", Def=" << Defender->Get_Def() << ", Accuracy=" << Defender->Get_Accuracy() << ", Evasiveness="
+			<< Defender->Get_Evasiveness() << endl << endl;
+		//设置几率降低精灵的命中率和闪避率
 		//下一个出招的精灵
 		if (((Aorder + 1)*A.Get_AtkI()) < ((Border + 1)*B.Get_AtkI()))
 		{
-			Attacker = 0;
+			Attacker = &A;
+			Defender = &B;
 			SleepTime = ((Aorder + 1)*A.Get_AtkI()) - currentTime;
 		}
 		else
 		{
-			Attacker = 1;
+			Attacker = &B;
+			Defender = &A;
 			SleepTime = ((Aorder + 1)*B.Get_AtkI()) - currentTime;
 		}
 		//Sleep(SleepTime);///////////////////////////////////////////////
