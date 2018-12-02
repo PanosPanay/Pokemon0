@@ -43,6 +43,8 @@ void FIGHT::A_VS_B()
 		Defender = &A;
 	}
 	//输出战斗双方当前属性值
+	string defenderName = Defender->Get_Name();
+	string attackName = Attacker->Get_Name();
 	cout << "战斗开始！" << endl;
 	cout << attackName << ": " << "HP=" << Attacker->Get_Hp() << ", Atk=" << Attacker->Get_Atk()
 		<< ", Def=" << Attacker->Get_Def() << ", Accuracy=" << Attacker->Get_Accuracy() << ", Evasiveness="
@@ -52,6 +54,8 @@ void FIGHT::A_VS_B()
 		<< Defender->Get_Evasiveness() << endl << endl;
 	while (A.Get_Hp() > 0 && B.Get_Hp() > 0)
 	{
+		defenderName = Defender->Get_Name();
+		attackName = Attacker->Get_Name();
 		//需要改变一下atki，注意和速度是相反的概念
 		if (Attacker == &A)//A出招
 		{
@@ -62,8 +66,6 @@ void FIGHT::A_VS_B()
 			++Border;
 		}
 		//确定招式并输出
-		string defenderName = Defender->Get_Name();
-		string attackName = Attacker->Get_Name();
 		int theSkill = rand() % (Attacker->Get_GotSkillCnt());//随机选取一个招式，或者加一个开关，让用户选择招式？？？？？？？？？？？？
 		SKILL* theSkillPtr = Attacker->Access_GotSkill(theSkill);
 		cout << "招式" << Aorder + Border << ":" << endl;
@@ -71,11 +73,12 @@ void FIGHT::A_VS_B()
 		//计算命中
 		int theHitNum = (theSkillPtr->SkillHit)*(Attacker->Get_Accuracy())*(1 - (Defender->Get_Evasiveness())) * 100;
 		int isHit = rand() % 100 + 1;
+		double addition = 1;//加成，属性相克
 		switch (theSkillPtr->SkillKind)
 		{
 		case ATTACK:
 			//分析命中率和伤害函数
-			double addition = 1;//加成，属性相克
+			//double addition = 1;//加成，属性相克
 			if (Defender->Get_Type() - Attacker->Get_Type() == 1 || Defender->Get_Type() - Attacker->Get_Type() == 4)
 				addition = 1.2;
 			else if (Attacker->Get_Type() - Defender->Get_Type() == 1 || Attacker->Get_Type() - Defender->Get_Type() == 4)
@@ -83,7 +86,8 @@ void FIGHT::A_VS_B()
 			
 			if (isHit <= theHitNum)//命中
 			{
-				int hurt = (Attacker->Get_Atk() / Attacker->Get_Def())*theSkillPtr->SkillPower*addition;
+				//计算伤害
+				int hurt = ((Attacker->Get_Atk()) / (Attacker->Get_Def()))*(theSkillPtr->SkillPower)*(addition);
 				int theHp = Defender->Get_Hp();
 				if (theHp > hurt)
 					theHp = theHp - hurt;
@@ -192,6 +196,8 @@ void FIGHT::A_VS_B()
 		nowExp = B.Get_Exp();
 		nowExp = nowExp + loseExp;
 		B.Input_Exp(nowExp);
+		cout << A.Get_Name() << "WIN!" << "EXP+" << winExp << endl;
+		cout << B.Get_Name() << "LOSE!" << "EXP+" << loseExp << endl;
 	}
 	else if (B.Get_Hp() > 0)//B赢
 	{
@@ -201,6 +207,8 @@ void FIGHT::A_VS_B()
 		nowExp = A.Get_Exp();
 		nowExp = nowExp + loseExp;
 		A.Input_Exp(nowExp);
+		cout << B.Get_Name() << "WIN!" << "EXP+" << winExp << endl;
+		cout << A.Get_Name() << "LOSE!" << "EXP+" << loseExp << endl;
 	}
 	else//A、B平局（实际不会出现？）
 	{
@@ -210,6 +218,8 @@ void FIGHT::A_VS_B()
 		nowExp = B.Get_Exp();
 		nowExp = nowExp + tieExp;
 		B.Input_Exp(nowExp);
+		cout << B.Get_Name() << "TIE!" << "EXP+" << tieExp << endl;
+		cout << A.Get_Name() << "TIE!" << "EXP+" << tieExp << endl;
 	}
 	//更新宠物等级信息
 	A.RefershRank();

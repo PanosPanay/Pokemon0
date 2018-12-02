@@ -1,10 +1,12 @@
+#pragma once
 #include<iostream>
 #include<string.h>
+#include<string>
 #include<windows.h>
 #include<time.h>
 using namespace std;
-const int SKILL_NUM = 20;//设定一个精灵可以拥有的技能数上限为20
-const int MIN_ATKI = 10;//设定最低攻击间隔，单位为10^-1s
+//const int SKILL_NUM = 20;//设定一个精灵可以拥有的技能数上限为20
+//const int MIN_ATKI = 10;//设定最低攻击间隔，单位为10^-1s
 
 //POWER:力量型，高攻击...TANK:肉盾型，高生命值...DEFENSIVE:防御型，高防御...AGILE:敏捷型，低攻击间隔
 enum POKEMONKIND
@@ -44,6 +46,7 @@ public:
 	SKILL(string sname, int srank, SKILLKIND skind, int spower, int shit);
 	SKILL(const SKILL &SK);
 };
+typedef SKILL * PSKILL;
 
 //宠物基类
 class POKEMON {
@@ -61,8 +64,8 @@ private:
 	double Accuracy;//命中率：命中率越高招式越容易命中
 	double Evasiveness;//闪避率：闪避率越高，受到的招式越不容易命中
 	WUXINGTYPE wType;//五行属性
-	SKILL AllSkills[SKILL_NUM];//所有技能列表
-	SKILL* GotSkills[SKILL_NUM];//已获得的技能列表，指向所有技能列表中相应的技能
+	SKILL AllSkills[20];//所有技能列表
+	PSKILL GotSkills[20];//已获得的技能列表，指向所有技能列表中相应的技能
 	int AllSkillCnt;
 	int GotSkillCnt;//当前已获得的技能数//是不是应该弄成public方便点//修改成指针？？？
 	string Nick;//昵称
@@ -103,13 +106,14 @@ public:
 	void Input_Nick(string xnick);
 	string Get_Nick()const;
 	const SKILL *Access_AllSkill()const;//返回访问所有技能列表的0位指针
-	SKILL *Access_GotSkill(int pos)const;//访问某个已经get到的技能
-
+	SKILL *Write_AllSkill();//返回修改所有技能列表的0位指针
+	PSKILL Access_GotSkill(int pos)const;//访问某个已经get到的技能
+	PSKILL *Write_GotSkill(int pos);//返回修改已获得技能列表的0位指针
 	void RefershRank();//用当前的精灵经验值更新等级信息
-	//增加技能
-	//攻击函数
+	void PrintPetInfo();//打印宠物信息
+
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	//virtual void SkillAll();//存入该类小精灵的所有技能
 };
 
 //-----------------------------------------------------------------------------------------
@@ -162,90 +166,90 @@ public:
 class GYARADOS :public POWERPET {
 public:
 	GYARADOS();
-	GYARADOS(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*GYARADOS(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	GYARADOS(const GYARADOS& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
-//小福蛋->吉利蛋->幸福蛋,肉盾型
+//小福蛋Happiny->吉利蛋Chansey->幸福蛋Blissey,肉盾型
 class HAPPINY :public TANKPET {
 public:
 	HAPPINY();
-	HAPPINY(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*HAPPINY(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	HAPPINY(const HAPPINY& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
-//杰尼龟(1-5级）->卡咪龟(6-10级）->水箭龟(11-15级），高防御
+//杰尼龟Squirtle(1-5级）->卡咪龟Wartortle(6-10级）->水箭龟Blastoise(11-15级），高防御
 class SQUIRTLE :public DEFENSIVEPET{
 //private:
 //	SKILL Skills[SKILL_NUM];
 public:
 	SQUIRTLE();
-	SQUIRTLE(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*SQUIRTLE(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	SQUIRTLE(const SQUIRTLE& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
-//超梦x->超梦->超级超梦y，敏捷型
+//超梦xMewtwoX->超梦Mewtwo->超级超梦yMewtwoY，敏捷型
 class  MEWTWO :public AGILEPET {
 public:
 	MEWTWO();
-	MEWTWO(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*MEWTWO(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	MEWTWO(const MEWTWO& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
-//火斑喵->炎热喵->炽焰咆啸虎Incineroar，力量型
+//火斑喵Litten->炎热喵Torracat->炽焰咆啸虎Incineroar，力量型
 class INCINEROAR :public POWERPET {
 public:
 	INCINEROAR();
-	INCINEROAR(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*INCINEROAR(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	INCINEROAR(const INCINEROAR& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
 
-//小果然->果然翁Wobbuffet，肉盾型
+//小果然Wynaut->果然翁Wobbuffet，肉盾型
 class WOBBUFFET :public TANKPET {
 public:
 	WOBBUFFET();
-	WOBBUFFET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*WOBBUFFET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	WOBBUFFET(const WOBBUFFET& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
 //大岩蛇Onix->大钢蛇Steelix->超级大钢蛇，防御型
 class STEELIX :public DEFENSIVEPET {
 public:
 	STEELIX();
-	STEELIX(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*STEELIX(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	STEELIX(const STEELIX& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
 //凯西Abra->勇基拉Kadabra->胡地Alakazam，敏捷型
 class ALAKAZAM :public AGILEPET {
 public:
 	ALAKAZAM();
-	ALAKAZAM(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
+	/*ALAKAZAM(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
-		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
+		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	ALAKAZAM(const ALAKAZAM& PET);
 	virtual void Upgrade();//升级函数（虚函数）
-	virtual void SkillAll();//存入该类小精灵的所有技能
+	void SkillAll();//存入该类小精灵的所有技能
 };
