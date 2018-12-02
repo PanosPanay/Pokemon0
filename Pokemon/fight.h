@@ -10,11 +10,15 @@ const int tieExp = 60;//平局增加的经验值
 
 class FIGHT {
 public:
+	//拷贝的用于战斗的宠物
 	POKEMON	A;
 	POKEMON	B;
+	//实际战斗的两只宠物
+	POKEMON *realA;
+	POKEMON *realB;
 
 	FIGHT();
-	FIGHT(POKEMON F1, POKEMON F2);
+	FIGHT(POKEMON *F1, POKEMON *F2);
 	FIGHT(const FIGHT &theFight);
 	void A_VS_B();
 };

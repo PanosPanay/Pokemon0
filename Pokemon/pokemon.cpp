@@ -354,14 +354,15 @@ AGILEPET::AGILEPET(const AGILEPET & PET) : POKEMON(PET)
 }
 
 //----------------------------------------------------------------------------------------------------------------
-//暴鲤龙
+//鲤鱼王Magikarp（1-5）->暴鲤龙Gyarados（6-10）->超级暴鲤龙Super Gyarados（11-15）,高攻击
 GYARADOS::GYARADOS()
 {
 	Input_Name("鲤鱼王Magikarp");//鲤鱼王
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(95);
-	Input_AtkI(81);//速度60？
+	//Input_AtkI(81);
+	Input_AtkI(40);
 	Input_Atk(125);
 	Input_Def(79);
 	Input_Accuracy(1);
@@ -372,6 +373,33 @@ GYARADOS::GYARADOS()
 
 void GYARADOS::Upgrade()
 {
+	srand((unsigned)time(NULL));
+	int currentRank = Get_Rank();
+	if (currentRank >= 6)
+	{
+		Input_Name("暴鲤龙Gyarados");
+	}
+	else if (currentRank >= 11)
+	{
+		Input_Name("超级暴鲤龙Super Gyarados");
+	}
+	int currentHp = Get_Hp();
+	int currentAtkI = Get_AtkI();
+	int currentAtk = Get_Atk();
+	int currentDef = Get_Def();
+	int addition = rand() % 5 + 6;
+	currentHp += addition;
+	Input_Hp(currentHp);
+	addition = rand() % 10 + 1;
+	if (currentAtkI - addition > MIN_ATKI)
+	{
+		currentAtkI -= addition;
+	}
+	else
+	{
+		currentAtkI = MIN_ATKI;////////////////////////////////////////////////////////////////////////////
+	}
+	
 }
 
 void GYARADOS::SkillAll()
@@ -444,7 +472,8 @@ HAPPINY::HAPPINY()
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(255);
-	Input_AtkI(55);//速度30？
+	//Input_AtkI(55);
+	Input_AtkI(60);
 	Input_Atk(10);
 	Input_Def(10);
 	Input_Accuracy(1);
@@ -515,7 +544,8 @@ SQUIRTLE::SQUIRTLE():DEFENSIVEPET()
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(79);
-	Input_AtkI(78);//速度78？
+	//Input_AtkI(78);
+	Input_AtkI(45);
 	Input_Atk(83);
 	Input_Def(100);
 	Input_Accuracy(1);
@@ -587,7 +617,8 @@ MEWTWO::MEWTWO()
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(106);
-	Input_AtkI(130);//速度130？
+	//Input_AtkI(130);
+	Input_AtkI(20);
 	Input_Atk(110);
 	Input_Def(90);
 	Input_Accuracy(1);
@@ -658,7 +689,8 @@ INCINEROAR::INCINEROAR()
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(95);
-	Input_AtkI(60);//速度130？
+	//Input_AtkI(60);
+	Input_AtkI(50);
 	Input_Atk(115);
 	Input_Def(90);
 	Input_Accuracy(1);
@@ -730,7 +762,8 @@ WOBBUFFET::WOBBUFFET()
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(190);
-	Input_AtkI(33);//速度130？
+	//Input_AtkI(33);
+	Input_AtkI(90);
 	Input_Atk(33);
 	Input_Def(58);
 	Input_Accuracy(1);
@@ -801,7 +834,8 @@ STEELIX::STEELIX()
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(75);
-	Input_AtkI(30);//速度30？
+	//Input_AtkI(30);
+	Input_AtkI(100);
 	Input_Atk(85);
 	Input_Def(200);
 	Input_Accuracy(1);
@@ -872,7 +906,8 @@ ALAKAZAM::ALAKAZAM()
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(55);
-	Input_AtkI(120);//速度30？
+	//Input_AtkI(120);
+	Input_AtkI(25);
 	Input_Atk(50);
 	Input_Def(45);
 	Input_Accuracy(1);

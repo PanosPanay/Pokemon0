@@ -4,14 +4,18 @@ FIGHT::FIGHT()
 {
 }
 
-FIGHT::FIGHT(POKEMON F1, POKEMON F2)
+FIGHT::FIGHT(POKEMON *F1, POKEMON *F2)
 {
-	A = F1;
-	B = F2;
+	realA = F1;
+	realB = F2;
+	A = *realA;
+	B = *realB;
 }
 
 FIGHT::FIGHT(const FIGHT & theFight)
 {
+	realA = theFight.realA;
+	realB = theFight.realB;
 	A = theFight.A;
 	B = theFight.B;
 }
@@ -209,5 +213,31 @@ void FIGHT::A_VS_B()
 	}
 	//更新宠物等级信息
 	A.RefershRank();
-	B.RefershRank();//最后再把新的等级和经验返回给宠物
+	B.RefershRank();
+	//检查是否有升级
+	if (A.Get_Rank() > realA->Get_Rank())//升级
+	{
+		//最后再把新的等级和经验返回给宠物
+		realA->Input_Exp(A.Get_Exp());
+		realA->Input_Rank(A.Get_Rank());
+		realA->Upgrade();//调用升级函数
+	}
+	else
+	{
+		realA->Input_Exp(A.Get_Exp());
+		realA->Input_Rank(A.Get_Rank());
+	}
+	if (B.Get_Rank() > realB->Get_Rank())
+	{
+		realB->Input_Exp(B.Get_Exp());
+		realB->Input_Rank(B.Get_Rank());
+		realB->Upgrade();
+	}
+	else
+	{
+		realB->Input_Exp(B.Get_Exp());
+		realB->Input_Rank(B.Get_Rank());
+	}
+	
 }
+

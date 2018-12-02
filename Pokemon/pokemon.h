@@ -1,7 +1,10 @@
 #include<iostream>
 #include<string.h>
+#include<windows.h>
+#include<time.h>
 using namespace std;
 const int SKILL_NUM = 20;//设定一个精灵可以拥有的技能数上限为20
+const int MIN_ATKI = 10;//设定最低攻击间隔，单位为10^-1s
 
 //POWER:力量型，高攻击...TANK:肉盾型，高生命值...DEFENSIVE:防御型，高防御...AGILE:敏捷型，低攻击间隔
 enum POKEMONKIND
@@ -50,7 +53,7 @@ private:
 	int Rank=1;//等级:每个精灵初始等级为1，满级15
 	int Exp;//经验值，战斗获得，先是100升一级，每升一级后都要多100才能升级，100，200，300.。。。
 	int	Hp;//生命值
-	int	AtkInterval;//攻击间隔：速度，只要速度高出对方1点就能比对方先出手；若速度一样，攻击次序则随机。 
+	int	AtkInterval;//攻击间隔：单位为10^-1s
 	//伤害=（（2*等级+10）/250*攻击方攻击力/防御方防御力*技能威力+2）*加成  加成由属性相克造成
 	int Atk;//攻击力：攻击力高的精灵使用物理招式的伤害多
 	int Def;//防御力：防御力高的精灵受到物理招式的伤害少
